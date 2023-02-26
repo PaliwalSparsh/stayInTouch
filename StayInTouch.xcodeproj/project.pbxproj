@@ -12,13 +12,10 @@
 		75675D1029AB00AC006A990F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75675D0F29AB00AC006A990F /* Assets.xcassets */; };
 		75675D1329AB00AC006A990F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75675D1229AB00AC006A990F /* Preview Assets.xcassets */; };
 		75675D1529AB00AC006A990F /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D1429AB00AC006A990F /* Persistence.swift */; };
-		75675D1829AB00AC006A990F /* StayInTouch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 75675D1629AB00AC006A990F /* StayInTouch.xcdatamodeld */; };
-		75675D2A29AB00E0006A990F /* ContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D1F29AB00E0006A990F /* ContactModel.swift */; };
-		75675D2B29AB00E0006A990F /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2229AB00E0006A990F /* Contact.swift */; };
 		75675D2C29AB00E0006A990F /* PeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2429AB00E0006A990F /* PeopleView.swift */; };
 		75675D2D29AB00E0006A990F /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2529AB00E0006A990F /* StatsView.swift */; };
-		75675D2E29AB00E0006A990F /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2629AB00E0006A990F /* SwiftUIView.swift */; };
 		75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2929AB00E0006A990F /* ContactPicker.swift */; };
+		75DB35F229ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 75DB35F029ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,13 +25,10 @@
 		75675D0F29AB00AC006A990F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75675D1229AB00AC006A990F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		75675D1429AB00AC006A990F /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		75675D1729AB00AC006A990F /* StayInTouch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StayInTouch.xcdatamodel; sourceTree = "<group>"; };
-		75675D1F29AB00E0006A990F /* ContactModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactModel.swift; sourceTree = "<group>"; };
-		75675D2229AB00E0006A990F /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		75675D2429AB00E0006A990F /* PeopleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleView.swift; sourceTree = "<group>"; };
 		75675D2529AB00E0006A990F /* StatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
-		75675D2629AB00E0006A990F /* SwiftUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		75675D2929AB00E0006A990F /* ContactPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactPicker.swift; sourceTree = "<group>"; };
+		75DB35F129ABCC1300D5A34F /* StayInTouch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StayInTouch.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,15 +62,11 @@
 			isa = PBXGroup;
 			children = (
 				75675D0B29AB00AB006A990F /* StayInTouchApp.swift */,
-				75675D0D29AB00AB006A990F /* ContentView.swift */,
-				75675D2129AB00E0006A990F /* Models */,
-				75675D2029AB00E0006A990F /* Services */,
 				75675D2829AB00E0006A990F /* Utilities */,
-				75675D1E29AB00E0006A990F /* ViewModels */,
 				75675D2329AB00E0006A990F /* Views */,
 				75675D0F29AB00AC006A990F /* Assets.xcassets */,
+				75DB35F029ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld */,
 				75675D1429AB00AC006A990F /* Persistence.swift */,
-				75675D1629AB00AC006A990F /* StayInTouch.xcdatamodeld */,
 				75675D1129AB00AC006A990F /* Preview Content */,
 			);
 			path = StayInTouch;
@@ -90,35 +80,12 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		75675D1E29AB00E0006A990F /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				75675D1F29AB00E0006A990F /* ContactModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		75675D2029AB00E0006A990F /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		75675D2129AB00E0006A990F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				75675D2229AB00E0006A990F /* Contact.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		75675D2329AB00E0006A990F /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				75675D2429AB00E0006A990F /* PeopleView.swift */,
 				75675D2529AB00E0006A990F /* StatsView.swift */,
-				75675D2629AB00E0006A990F /* SwiftUIView.swift */,
+				75675D0D29AB00AB006A990F /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -201,16 +168,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75675D2B29AB00E0006A990F /* Contact.swift in Sources */,
 				75675D1529AB00AC006A990F /* Persistence.swift in Sources */,
-				75675D2E29AB00E0006A990F /* SwiftUIView.swift in Sources */,
 				75675D2C29AB00E0006A990F /* PeopleView.swift in Sources */,
 				75675D0E29AB00AB006A990F /* ContentView.swift in Sources */,
 				75675D2D29AB00E0006A990F /* StatsView.swift in Sources */,
 				75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */,
 				75675D0C29AB00AB006A990F /* StayInTouchApp.swift in Sources */,
-				75675D2A29AB00E0006A990F /* ContactModel.swift in Sources */,
-				75675D1829AB00AC006A990F /* StayInTouch.xcdatamodeld in Sources */,
+				75DB35F229ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,14 +377,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		75675D1629AB00AC006A990F /* StayInTouch.xcdatamodeld */ = {
+		75DB35F029ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				75675D1729AB00AC006A990F /* StayInTouch.xcdatamodel */,
+				75DB35F129ABCC1300D5A34F /* StayInTouch.xcdatamodel */,
 			);
-			currentVersion = 75675D1729AB00AC006A990F /* StayInTouch.xcdatamodel */;
-			path = StayInTouch.xcdatamodeld;
-			sourceTree = "<group>";
+			currentVersion = 75DB35F129ABCC1300D5A34F /* StayInTouch.xcdatamodel */;
+			path = StayInTouchCoreData.xcdatamodeld;
+			sourceTree = SOURCE_ROOT;
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */

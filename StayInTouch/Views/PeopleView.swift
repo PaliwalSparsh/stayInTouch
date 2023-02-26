@@ -1,28 +1,26 @@
-//
-//  PeopleView.swift
-//  StayInTouch
-//
-//  Created by Sparsh Paliwal on 2/22/23.
-//
 
 import SwiftUI
 import UIKit
 import ContactsUI
+import CoreData
 
 struct PeopleView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Contact.name, ascending: true)],
+        animation: .default)
+    private var contacts: FetchedResults<Contact>
+
     @State var showPicker = false
-    @EnvironmentObject var model:ContactModel
 
     var body: some View {
         ZStack {
-            // This is just a dummy view to present the contact picker,
-            // it won't display anything, so place this anywhere.
-            // Here I have created a ZStack and placed it beneath the main view.
             ContactPicker(
                 showPicker: $showPicker,
-                onSelectContacts: { contacts in
-                    for contactDetail in contacts {
-                        model.addContacts(contacts: [Contact(details: contactDetail)])
+                onSelectContacts: { selectedContacts in
+                    for selectedContact in selectedContacts {
+                        addContact(contact: selectedContact)
                     }
                 }
             )
@@ -32,13 +30,51 @@ struct PeopleView: View {
                 }) {
                     Text("Pick a contact")
                 }
-                List(model.contacts) { contact in
-                    Text("Name: \(contact.details.givenName)")
+                
+                List(contacts) { contact in
+                    HStack {
+                        VStack {
+                            Text(contact.name ?? "").font(.subheadline)
+                            Text(contact.phone ?? "")
+                        }
+                        Button("Delete") {
+                            deleteContact(contact: contact)
+                        }
+                    }
                 }
+
             }
         }
     }
     
+    private func addContact(contact: CNContact) {
+        withAnimation {
+            let newContact = Contact(context: viewContext)
+            newContact.id = contact.identifier
+            newContact.name = contact.givenName
+            newContact.phone = (contact.phoneNumbers[0].value ).value(forKey: "digits") as? String
+
+            do {
+                try viewContext.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo), and \(nsError.localizedDescription)")
+            }
+        }
+    }
+
+    private func deleteContact(contact: NSManagedObject) {
+        withAnimation {
+            viewContext.delete(contact)
+            do {
+                try viewContext.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
+    }
+
 }
 
 struct PeopleView_Previews: PreviewProvider {
