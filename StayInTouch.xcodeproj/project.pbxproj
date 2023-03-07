@@ -15,6 +15,7 @@
 		75675D2C29AB00E0006A990F /* PeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2429AB00E0006A990F /* PeopleView.swift */; };
 		75675D2D29AB00E0006A990F /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2529AB00E0006A990F /* StatsView.swift */; };
 		75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2929AB00E0006A990F /* ContactPicker.swift */; };
+		75D8C17729B7F021000691A2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D8C17629B7F021000691A2 /* WelcomeView.swift */; };
 		75DB35F229ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 75DB35F029ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,7 @@
 		75675D2429AB00E0006A990F /* PeopleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleView.swift; sourceTree = "<group>"; };
 		75675D2529AB00E0006A990F /* StatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		75675D2929AB00E0006A990F /* ContactPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactPicker.swift; sourceTree = "<group>"; };
+		75D8C17629B7F021000691A2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		75DB35F129ABCC1300D5A34F /* StayInTouch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StayInTouch.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 				75675D2429AB00E0006A990F /* PeopleView.swift */,
 				75675D2529AB00E0006A990F /* StatsView.swift */,
 				75675D0D29AB00AB006A990F /* ContentView.swift */,
+				75D8C17629B7F021000691A2 /* WelcomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 				75675D1529AB00AC006A990F /* Persistence.swift in Sources */,
 				75675D2C29AB00E0006A990F /* PeopleView.swift in Sources */,
 				75675D0E29AB00AB006A990F /* ContentView.swift in Sources */,
+				75D8C17729B7F021000691A2 /* WelcomeView.swift in Sources */,
 				75675D2D29AB00E0006A990F /* StatsView.swift in Sources */,
 				75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */,
 				75675D0C29AB00AB006A990F /* StayInTouchApp.swift in Sources */,

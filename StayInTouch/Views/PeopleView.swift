@@ -35,8 +35,9 @@ struct PeopleView: View {
                     HStack {
                         VStack {
                             Text(contact.name ?? "").font(.subheadline)
-                            Text(contact.phone ?? "")
+                            Text(contact.phone ?? "Not found")
                         }
+                        Spacer()
                         Button("Delete") {
                             deleteContact(contact: contact)
                         }
