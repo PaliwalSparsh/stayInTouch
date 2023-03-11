@@ -12,8 +12,8 @@ import CoreData
 
 struct ContentView: View {
     var body: some View {
-        // PeopleView()
-        WelcomeView()
+        PeopleView()
+        // WelcomeView()
     }
 }
 

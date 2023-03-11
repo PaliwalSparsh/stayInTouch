@@ -31,7 +31,6 @@ struct FeatureListItem: View {
 struct WelcomeView: View {
     var body: some View {
         VStack {
-            Spacer()
             VStack(spacing: -12) {
                 Text("Welcome to ")
                 Text("Remember Me!").foregroundColor(.accentColor)
@@ -42,7 +41,8 @@ struct WelcomeView: View {
             .font(Font.body.leading(.tight))
             .multilineTextAlignment(.center)
             .bold()
-            .padding(.bottom, 32)
+            .padding(.bottom, 48)
+            .padding(.top, 72)
             
             VStack(alignment: .leading, spacing: 16) {
                 FeatureListItem(icon: "person.crop.circle.fill.badge.plus", title: "Add you contacts", description: "Tap the Add button and search for your contacts. You can add as many as you want!")
@@ -52,6 +52,8 @@ struct WelcomeView: View {
             Spacer()
             Button(action: {}) {
                 Text("Continue")
+                    .foregroundColor(.black)
+                    .bold()
                     .frame(maxWidth: .infinity, maxHeight: 40)
             }
             .buttonStyle(.borderedProminent)
@@ -61,6 +63,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView().preferredColorScheme(.dark)
+        WelcomeView()
     }
 }
