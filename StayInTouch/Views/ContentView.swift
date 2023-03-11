@@ -12,8 +12,14 @@ import CoreData
 
 struct ContentView: View {
     var body: some View {
-        PeopleView()
-        // WelcomeView()
+        TabView {
+            CallListView().tabItem {
+                Label("Call List", systemImage: "list.bullet.rectangle.portrait.fill")
+            }
+            ImportedContactsView().tabItem {
+                Label("Contacts", systemImage: "person.crop.rectangle.stack.fill")
+            }
+        }
     }
 }
 

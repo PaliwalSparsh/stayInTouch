@@ -12,8 +12,8 @@
 		75675D1029AB00AC006A990F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75675D0F29AB00AC006A990F /* Assets.xcassets */; };
 		75675D1329AB00AC006A990F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75675D1229AB00AC006A990F /* Preview Assets.xcassets */; };
 		75675D1529AB00AC006A990F /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D1429AB00AC006A990F /* Persistence.swift */; };
-		75675D2C29AB00E0006A990F /* PeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2429AB00E0006A990F /* PeopleView.swift */; };
-		75675D2D29AB00E0006A990F /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2529AB00E0006A990F /* StatsView.swift */; };
+		75675D2C29AB00E0006A990F /* CallListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2429AB00E0006A990F /* CallListView.swift */; };
+		75675D2D29AB00E0006A990F /* ImportedContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2529AB00E0006A990F /* ImportedContactsView.swift */; };
 		75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2929AB00E0006A990F /* ContactPicker.swift */; };
 		756B25FC29BC2BE4005E4E80 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756B25FB29BC2BE4005E4E80 /* ContactView.swift */; };
 		75D8C17729B7F021000691A2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D8C17629B7F021000691A2 /* WelcomeView.swift */; };
@@ -27,8 +27,8 @@
 		75675D0F29AB00AC006A990F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75675D1229AB00AC006A990F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		75675D1429AB00AC006A990F /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		75675D2429AB00E0006A990F /* PeopleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleView.swift; sourceTree = "<group>"; };
-		75675D2529AB00E0006A990F /* StatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		75675D2429AB00E0006A990F /* CallListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallListView.swift; sourceTree = "<group>"; };
+		75675D2529AB00E0006A990F /* ImportedContactsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportedContactsView.swift; sourceTree = "<group>"; };
 		75675D2929AB00E0006A990F /* ContactPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactPicker.swift; sourceTree = "<group>"; };
 		756B25FB29BC2BE4005E4E80 /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		75D8C17629B7F021000691A2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -87,8 +87,8 @@
 		75675D2329AB00E0006A990F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				75675D2429AB00E0006A990F /* PeopleView.swift */,
-				75675D2529AB00E0006A990F /* StatsView.swift */,
+				75675D2429AB00E0006A990F /* CallListView.swift */,
+				75675D2529AB00E0006A990F /* ImportedContactsView.swift */,
 				75675D0D29AB00AB006A990F /* ContentView.swift */,
 				75D8C17629B7F021000691A2 /* WelcomeView.swift */,
 				756B25FB29BC2BE4005E4E80 /* ContactView.swift */,
@@ -175,11 +175,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				75675D1529AB00AC006A990F /* Persistence.swift in Sources */,
-				75675D2C29AB00E0006A990F /* PeopleView.swift in Sources */,
+				75675D2C29AB00E0006A990F /* CallListView.swift in Sources */,
 				75675D0E29AB00AB006A990F /* ContentView.swift in Sources */,
 				75D8C17729B7F021000691A2 /* WelcomeView.swift in Sources */,
 				756B25FC29BC2BE4005E4E80 /* ContactView.swift in Sources */,
-				75675D2D29AB00E0006A990F /* StatsView.swift in Sources */,
+				75675D2D29AB00E0006A990F /* ImportedContactsView.swift in Sources */,
 				75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */,
 				75675D0C29AB00AB006A990F /* StayInTouchApp.swift in Sources */,
 				75DB35F229ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld in Sources */,
@@ -317,6 +317,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -346,6 +347,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

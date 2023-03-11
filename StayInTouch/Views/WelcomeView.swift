@@ -50,14 +50,18 @@ struct WelcomeView: View {
                 FeatureListItem(icon: "phone.connection.fill", title: "Get a call list everyday!", description: "Everyday, we'll create a list of people you need to call based on your selected frequency.")
             }
             Spacer()
-            Button(action: {}) {
+            Button(action: {
+                UserDefaults.standard.set(false, forKey: "isFirstTimeUser")
+            }) {
                 Text("Continue")
-                    .foregroundColor(.black)
                     .bold()
+                    .foregroundColor(Color(.label))
                     .frame(maxWidth: .infinity, maxHeight: 40)
             }
             .buttonStyle(.borderedProminent)
-        }.padding(16)
+        }
+        .padding(16)
+        .background(Color(.systemBackground))
     }
 }
 

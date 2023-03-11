@@ -10,42 +10,36 @@ import SwiftUI
 struct ContactView: View {
     var body: some View {
         VStack {
-            GeometryReader { geo in
-                HStack {
-                Button(action: {
+            List {
+
+                Section {
+                    HStack {
+                        Text("Name")
+                        Spacer()
+                        Text("Mom")
+                    }
+                    HStack {
+                        Text("Phone")
+                        Spacer()
+                        HStack (spacing: 12) {
+                        Text("240-476-0453")
+                            Button(action: {
+                                print("Calling Sparsh")
+                            }) {
+                                Image(systemName: "phone.fill")
+                                    .foregroundColor(.green)
+                                    .frame(maxWidth: 40, maxHeight: 40)
+                                    .background(Circle().fill(Color(.secondarySystemBackground)))
+                            }
+                        }
+                    }.padding(.vertical, 8)
+                } footer: {
+                    Text("To change name and phone number go to contacts. Once finished with the change come back and again add the contacts here.")
                     
-                }) {
-                    Image(systemName: "pencil")
-                }.frame(maxWidth: geo.size.width/2)
+                }
                 
-                Button(action: {
-                    
-                }) {
-                    Image(systemName: "pencil")
-                }.frame(maxWidth: geo.size.width/2)
-                }
-            }
-            
-            List {
-                HStack {
-                    Text("Name")
-                    Spacer()
-                    Text("Mom")
-                }
-                HStack {
-                    Text("Name")
-                    Spacer()
-                    Text("Mom")
-                }
-            }
-            
-            Text("To change name and phone number go to contacts. Once finished with the change come back and again add the contacts here.").font(.caption)
-            
-            List {
-                HStack {
-                    Text("Calling Frequency")
-                    Spacer()
-                    Picker(selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/, label: /*@START_MENU_TOKEN@*/Text("Picker")/*@END_MENU_TOKEN@*/) {
+                Section {
+                    Picker(selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/, label: Text("Calling Frequency")) {
                         Text("Once a Week").tag(1)
                         Text("Twice a Week").tag(2)
                         Text("Thrice a Week").tag(3)
@@ -54,9 +48,9 @@ struct ContactView: View {
                         Text("Thrice a Month").tag(6)
                         Text("Once a Quater").tag(7)
                     }
+
                 }
             }
-
         }
     }
 }
