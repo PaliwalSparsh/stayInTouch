@@ -11,7 +11,6 @@ struct ContactView: View {
     var body: some View {
         VStack {
             List {
-
                 Section {
                     HStack {
                         Text("Name")
