@@ -73,8 +73,9 @@ struct ImportedContactsView: View {
             newContact.id = contact.identifier
             newContact.name = contact.givenName
             newContact.phone = (contact.phoneNumbers[0].value ).value(forKey: "digits") as? String
-            newContact.lastCalled = nil
-            newContact.callFrequency = nil
+            newContact.lastCalled = getMinDate()
+            newContact.callFrequency = "W"
+            newContact.callStatus = 0
             
             do {
                 try viewContext.save()

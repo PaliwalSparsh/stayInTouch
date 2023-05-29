@@ -10,6 +10,12 @@ import CoreData
 import SwiftUI
 import CoreData
 
+//enum CallFrequency: String {
+//    case weekly = "Weekly"
+//    case monthly = "Monthly"
+//    case yearly = "Yearly"
+//}
+
 struct ContentView: View {
     var body: some View {
         TabView {
@@ -29,6 +35,5 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-// TODO:
                                     
 

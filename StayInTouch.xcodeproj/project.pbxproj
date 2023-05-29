@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		756617D62A2473C500ED6D95 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756617D52A2473C500ED6D95 /* utils.swift */; };
 		75675D0C29AB00AB006A990F /* StayInTouchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D0B29AB00AB006A990F /* StayInTouchApp.swift */; };
 		75675D0E29AB00AB006A990F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D0D29AB00AB006A990F /* ContentView.swift */; };
 		75675D1029AB00AC006A990F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75675D0F29AB00AC006A990F /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		756617D52A2473C500ED6D95 /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		75675D0829AB00AB006A990F /* StayInTouch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StayInTouch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75675D0B29AB00AB006A990F /* StayInTouchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StayInTouchApp.swift; sourceTree = "<group>"; };
 		75675D0D29AB00AB006A990F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				75675D2929AB00E0006A990F /* ContactPicker.swift */,
+				756617D52A2473C500ED6D95 /* utils.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 				75675D0E29AB00AB006A990F /* ContentView.swift in Sources */,
 				75D8C17729B7F021000691A2 /* WelcomeView.swift in Sources */,
 				756B25FC29BC2BE4005E4E80 /* ContactView.swift in Sources */,
+				756617D62A2473C500ED6D95 /* utils.swift in Sources */,
 				75675D2D29AB00E0006A990F /* ImportedContactsView.swift in Sources */,
 				75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */,
 				75675D0C29AB00AB006A990F /* StayInTouchApp.swift in Sources */,
