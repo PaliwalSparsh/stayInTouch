@@ -23,10 +23,10 @@ struct ContactsView: View {
         ZStack(alignment: .topLeading) {
             ContactPicker(
                 showPicker: $showPicker,
-                onSelectContacts: { selectedContacts in
-                    for selectedContact in selectedContacts {
-                        addContact(contact: selectedContact)
-                    }
+                // Always use onSelectContact, if you use onSelectContacts i.e. allow multiple
+                // selections, Search bar in Contact Picker UI disappears which is really bad UX for users.
+                onSelectContact: { selectedContact in
+                    addContact(contact: selectedContact)
                 }
             )
 
