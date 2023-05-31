@@ -20,18 +20,17 @@ func getFirstDayOfTheWeek() -> Date {
 func getFirstDayOfTheMonth() -> Date {
     let calendar = Calendar.current
     let now = Date()
-    
     var startOfMonthComponents = calendar.dateComponents([.year, .month], from: now)
     startOfMonthComponents.day = 1
     startOfMonthComponents.hour = 0
     startOfMonthComponents.minute = 0
-    return calendar.date(from:startOfMonthComponents) ?? now
+    return calendar.date(from: startOfMonthComponents) ?? now
 }
 
-func getFirstDayOfTheYear()  -> Date {
+func getFirstDayOfTheYear() -> Date {
     let calendar = Calendar.current
     let now = Date()
-    
+
     var startOfYearComponents = calendar.dateComponents([.year], from: now)
     startOfYearComponents.month = 1
     startOfYearComponents.day = 1
@@ -42,7 +41,7 @@ func getFirstDayOfTheYear()  -> Date {
 
 func getMinDate() -> Date {
     let now = Date()
-    
+
     var minDateComponents = DateComponents()
     minDateComponents.year = 1
     minDateComponents.month = 1

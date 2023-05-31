@@ -12,14 +12,13 @@ import CoreData
 struct ImportedContactsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
-    
+
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Contact.name, ascending: true)])
     private var contacts: FetchedResults<Contact>
-    
+
     @State var showPicker = false
-    
-    
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             ContactPicker(
@@ -30,7 +29,7 @@ struct ImportedContactsView: View {
                     }
                 }
             )
-            
+
             NavigationView {
                 VStack(alignment: .leading, spacing: 16) {
                     Button(action: {
@@ -38,7 +37,7 @@ struct ImportedContactsView: View {
                     }) {
                         Text("\(Image(systemName: "plus")) Add Contacts")
                     }
-                    
+
                     ForEach(contacts) { contact in
                         HStack {
                             Text(contact.name ?? "").font(.subheadline)
@@ -62,11 +61,11 @@ struct ImportedContactsView: View {
                     }
                 }
                 .padding(.horizontal, 16)
-                .navigationTitle("Imported Contacts")
+                .navigationTitle("My People")
             }
         }
     }
-    
+
     private func addContact(contact: CNContact) {
         withAnimation {
             let newContact = Contact(context: viewContext)
@@ -76,7 +75,7 @@ struct ImportedContactsView: View {
             newContact.lastCalled = getMinDate()
             newContact.callFrequency = "W"
             newContact.callStatus = 0
-            
+
             do {
                 try viewContext.save()
             } catch {
@@ -85,10 +84,10 @@ struct ImportedContactsView: View {
             }
         }
     }
-    
+
     private func putCallFrequency(contact: Contact, callFrequency: String) {
         contact.callFrequency = callFrequency
-        
+
         do {
             try viewContext.save()
         } catch {
@@ -96,7 +95,7 @@ struct ImportedContactsView: View {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo), and \(nsError.localizedDescription)")
         }
     }
-    
+
     private func deleteContact(contact: NSManagedObject) {
         withAnimation {
             viewContext.delete(contact)

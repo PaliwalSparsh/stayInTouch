@@ -20,8 +20,8 @@ struct ContactView: View {
                     HStack {
                         Text("Phone")
                         Spacer()
-                        HStack (spacing: 12) {
-                        Text("240-476-0453")
+                        HStack(spacing: 12) {
+                            Text("240-476-0453")
                             Button(action: {
                                 print("Calling Sparsh")
                             }) {
@@ -34,9 +34,9 @@ struct ContactView: View {
                     }.padding(.vertical, 8)
                 } footer: {
                     Text("To change name and phone number go to contacts. Once finished with the change come back and again add the contacts here.")
-                    
+
                 }
-                
+
                 Section {
                     Picker(selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/, label: Text("Calling Frequency")) {
                         Text("Once a Week").tag(1)

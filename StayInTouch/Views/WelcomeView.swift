@@ -7,12 +7,11 @@
 
 import SwiftUI
 
-
 struct FeatureListItem: View {
     var icon: String
     var title: String
     var description: String
-    
+
     var body: some View {
         HStack {
             Image(systemName: icon)
@@ -43,13 +42,15 @@ struct WelcomeView: View {
             .bold()
             .padding(.bottom, 48)
             .padding(.top, 72)
-            
+
             VStack(alignment: .leading, spacing: 16) {
                 FeatureListItem(icon: "person.crop.circle.fill.badge.plus", title: "Add you contacts", description: "Tap the Add button and search for your contacts. You can add as many as you want!")
                 FeatureListItem(icon: "waveform.path.ecg.rectangle.fill", title: "Set your call frequency", description: "How often do you want to call your contacts? Choose once a week, once a month, or once a year.")
                 FeatureListItem(icon: "phone.connection.fill", title: "Get a call list everyday!", description: "Everyday, we'll create a list of people you need to call based on your selected frequency.")
             }
+
             Spacer()
+
             Button(action: {
                 UserDefaults.standard.set(false, forKey: "isFirstTimeUser")
             }) {
@@ -59,6 +60,7 @@ struct WelcomeView: View {
                     .frame(maxWidth: .infinity, maxHeight: 40)
             }
             .buttonStyle(.borderedProminent)
+
         }
         .padding(16)
         .background(Color(.systemBackground))
