@@ -13,7 +13,7 @@ struct StayInTouchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            EntryView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

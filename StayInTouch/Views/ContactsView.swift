@@ -9,7 +9,7 @@ import SwiftUI
 import ContactsUI
 import CoreData
 
-struct ImportedContactsView: View {
+struct ContactsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -114,6 +114,6 @@ struct ImportedContactsView: View {
 
 struct StatsView_Previews: PreviewProvider {
     static var previews: some View {
-        ImportedContactsView().preferredColorScheme(.dark)
+        ContactsView().preferredColorScheme(.dark)
     }
 }

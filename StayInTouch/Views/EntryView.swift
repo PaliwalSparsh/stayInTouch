@@ -8,13 +8,13 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct EntryView: View {
     var body: some View {
         TabView {
             CallListView().tabItem {
                 Label("Call List", systemImage: "list.bullet.rectangle.portrait.fill")
             }
-            ImportedContactsView().tabItem {
+            ContactsView().tabItem {
                 Label("Contacts", systemImage: "person.crop.rectangle.stack.fill")
             }
         }
@@ -23,6 +23,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        EntryView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
