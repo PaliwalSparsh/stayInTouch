@@ -59,6 +59,7 @@ struct CallListView: View {
                             }
                             Spacer()
                             Button(action: {
+                                makeCall(contact: contact)
                                 putCallVerified(contact: contact)
                             }, label: {
                                 Image(systemName: "phone.fill")
@@ -73,6 +74,12 @@ struct CallListView: View {
             if isFirstTimeUser {
                 WelcomeView()
             }
+        }
+    }
+
+    func makeCall(contact: Contact) {
+        if let url = URL(string: "tel://\(contact.phone!)") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 
