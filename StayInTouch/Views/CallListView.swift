@@ -20,18 +20,16 @@ struct CallListView: View {
                 if getFirstDayOfTheWeek() > (contact.lastCalled ?? Date()) {
                     callList.append(contact)
                 }
-                break
             case "M":
                 if getFirstDayOfTheMonth() > (contact.lastCalled ?? Date()) {
                     callList.append(contact)
                 }
-                break
             case "Y":
                 if getFirstDayOfTheYear() > (contact.lastCalled ?? Date()) {
                     callList.append(contact)
                 }
             default:
-                print("not possible case")
+                print("Not a default option")
             }
         }
         return callList
@@ -44,7 +42,9 @@ struct CallListView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     ForEach(callList) { contact in
                         HStack {
-                            Image(systemName: "person.circle.fill").font(.system(size: 40)).padding(.trailing, 4)
+                            Image(systemName: "person.circle.fill")
+                                .font(.system(size: 40))
+                                .padding(.trailing, 4)
                             VStack(alignment: .leading) {
                                 Text(contact.name ?? "None")
                                 if contact.lastCalled! == getMinDate() {
@@ -52,20 +52,21 @@ struct CallListView: View {
                                         .foregroundStyle(Color(.secondaryLabel))
 
                                 } else {
-                                    Text("Last called \((contact.lastCalled ?? Date.now).formatted(date: .abbreviated, time: .omitted))").foregroundStyle(Color(.secondaryLabel))
+                                    Text("Last called" + (contact.lastCalled ?? Date.now)
+                                        .formatted(date: .abbreviated, time: .omitted))
+                                    .foregroundStyle(Color(.secondaryLabel))
                                 }
                             }
                             Spacer()
                             Button(action: {
                                 putCallVerified(contact: contact)
-                            }) {
+                            }, label: {
                                 Image(systemName: "phone.fill")
                                     .foregroundColor(.green)
                                     .frame(maxWidth: 40, maxHeight: 40)
                                     .background(Circle().fill(Color(.secondarySystemBackground)))
-                            }
+                            })
                         }
-
                     }
                 }.navigationTitle("Call List")
             }
@@ -82,7 +83,8 @@ struct CallListView: View {
             try viewContext.save()
         } catch {
             let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo), and \(nsError.localizedDescription)")
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
+                       " and \(nsError.localizedDescription)")
         }
     }
 }

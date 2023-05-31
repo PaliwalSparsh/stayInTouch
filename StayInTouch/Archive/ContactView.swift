@@ -24,21 +24,23 @@ struct ContactView: View {
                             Text("240-476-0453")
                             Button(action: {
                                 print("Calling Sparsh")
-                            }) {
+                            }, label: {
                                 Image(systemName: "phone.fill")
                                     .foregroundColor(.green)
                                     .frame(maxWidth: 40, maxHeight: 40)
                                     .background(Circle().fill(Color(.secondarySystemBackground)))
-                            }
+                            })
                         }
                     }.padding(.vertical, 8)
                 } footer: {
+                    // swiftlint:disable line_length
                     Text("To change name and phone number go to contacts. Once finished with the change come back and again add the contacts here.")
-
+                    // swiftlint:enable line_length
                 }
 
                 Section {
-                    Picker(selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/, label: Text("Calling Frequency")) {
+                    Picker(selection: /*@START_MENU_TOKEN@*/.constant(1)/*@END_MENU_TOKEN@*/
+                           , label: Text("Calling Frequency")) {
                         Text("Once a Week").tag(1)
                         Text("Twice a Week").tag(2)
                         Text("Thrice a Week").tag(3)

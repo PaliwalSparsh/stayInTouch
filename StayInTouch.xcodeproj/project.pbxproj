@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		756617D62A2473C500ED6D95 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756617D52A2473C500ED6D95 /* Utils.swift */; };
+		756617D92A26C6AC00ED6D95 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 756617D82A26C6AC00ED6D95 /* .swiftlint.yml */; };
 		75675D0C29AB00AB006A990F /* StayInTouchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D0B29AB00AB006A990F /* StayInTouchApp.swift */; };
 		75675D0E29AB00AB006A990F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D0D29AB00AB006A990F /* ContentView.swift */; };
 		75675D1029AB00AC006A990F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75675D0F29AB00AC006A990F /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		756617D52A2473C500ED6D95 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		756617D82A26C6AC00ED6D95 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = StayInTouch/.swiftlint.yml; sourceTree = "<group>"; };
 		75675D0829AB00AB006A990F /* StayInTouch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StayInTouch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75675D0B29AB00AB006A990F /* StayInTouchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StayInTouchApp.swift; sourceTree = "<group>"; };
 		75675D0D29AB00AB006A990F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 		75675CFF29AB00AB006A990F = {
 			isa = PBXGroup;
 			children = (
+				756617D82A26C6AC00ED6D95 /* .swiftlint.yml */,
 				75675D0A29AB00AB006A990F /* StayInTouch */,
 				75675D0929AB00AB006A990F /* Products */,
 			);
@@ -174,6 +177,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				756617D92A26C6AC00ED6D95 /* .swiftlint.yml in Resources */,
 				75675D1329AB00AC006A990F /* Preview Assets.xcassets in Resources */,
 				75675D1029AB00AC006A990F /* Assets.xcassets in Resources */,
 			);

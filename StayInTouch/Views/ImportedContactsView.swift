@@ -34,9 +34,9 @@ struct ImportedContactsView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Button(action: {
                         self.showPicker.toggle()
-                    }) {
+                    }, label: {
                         Text("\(Image(systemName: "plus")) Add Contacts")
-                    }
+                    })
 
                     ForEach(contacts) { contact in
                         HStack {
@@ -80,7 +80,8 @@ struct ImportedContactsView: View {
                 try viewContext.save()
             } catch {
                 let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo), and \(nsError.localizedDescription)")
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
+                           " and \(nsError.localizedDescription)")
             }
         }
     }
@@ -92,7 +93,8 @@ struct ImportedContactsView: View {
             try viewContext.save()
         } catch {
             let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo), and \(nsError.localizedDescription)")
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
+                       " and \(nsError.localizedDescription)")
         }
     }
 
@@ -103,7 +105,8 @@ struct ImportedContactsView: View {
                 try viewContext.save()
             } catch {
                 let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
+                           " and \(nsError.localizedDescription)")
             }
         }
     }

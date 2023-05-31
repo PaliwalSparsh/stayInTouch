@@ -1,3 +1,5 @@
+// swiftlint:disable orphaned_doc_comment line_length identifier_name
+
 import SwiftUI
 import ContactsUI
 
@@ -117,3 +119,5 @@ class ContactPickerViewModel {
 public protocol ContactPickerCoordinator: CNContactPickerDelegate {}
 
 public class _DummyViewController: UIViewController {}
+
+// swiftlint:enable orphaned_doc_comment line_length identifier_name
