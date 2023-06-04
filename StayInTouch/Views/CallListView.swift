@@ -6,7 +6,7 @@ struct ContactCard: View {
     var contact: Contact
     var cta: (_ contact: Contact) -> Void
     var ctaSymbol: String
-    
+
     var body: some View {
         HStack {
             Image(systemName: "person.circle.fill")
@@ -36,14 +36,14 @@ struct ContactCard: View {
 
 struct CallListView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
+
     // We listen for when the value of isFirstTimeUser Changes
     @AppStorage("isFirstTimeUser") var isFirstTimeUser: Bool = true
-    
+
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Contact.name, ascending: true)])
     private var contacts: FetchedResults<Contact>
-    
+
     var callLists: [String: [Contact]] {
         var callScheduled: [Contact] = []
         var callAttempted: [Contact] = []
@@ -55,27 +55,30 @@ struct CallListView: View {
             var firstDayOfTheCallFrequency = Date()
 
             switch contact.callFrequency {
-                case "W":
-                    firstDayOfTheCallFrequency = getFirstDayOfTheWeek()
-                case "M":
-                    firstDayOfTheCallFrequency = getFirstDayOfTheMonth()
-                case "Y":
-                    firstDayOfTheCallFrequency = getFirstDayOfTheYear()
-                default:
-                    print("Not a default option")
+            case "W":
+                firstDayOfTheCallFrequency = getFirstDayOfTheWeek()
+            case "M":
+                firstDayOfTheCallFrequency = getFirstDayOfTheMonth()
+            case "Y":
+                firstDayOfTheCallFrequency = getFirstDayOfTheYear()
+            default:
+                print("Not a default option")
             }
-            
-            wasLastCalledWithinCurrentCallFrequency = firstDayOfTheCallFrequency < (contact.lastCalled ?? Date())
-            wasLastAttemptedWithinCurrentCallFrequency = firstDayOfTheCallFrequency < (contact.lastAttempted ?? Date())
-            
-            if wasLastCalledWithinCurrentCallFrequency { callVerified.append(contact) }
-            if wasLastAttemptedWithinCurrentCallFrequency { callAttempted.append(contact) }
-            if !wasLastCalledWithinCurrentCallFrequency && !wasLastAttemptedWithinCurrentCallFrequency { callScheduled.append(contact) }
-            
+
+            if firstDayOfTheCallFrequency < (contact.lastCalled ?? Date()) { // wasLastCalledWithinCurrentCallFrequency
+                callVerified.append(contact)
+            } else if firstDayOfTheCallFrequency < (contact.lastAttempted ?? Date()) { // wasLastAttemptedWithinCurrentCallFrequency
+                callAttempted.append(contact)
+            } else {
+                callScheduled.append(contact)
+            }
+
         }
-        return ["callsScheduled": callScheduled, "callsVerified": callVerified, "callsAttempted": callAttempted]
+        return ["callsScheduled": callScheduled,
+                "callsVerified": callVerified,
+                "callsAttempted": callAttempted]
     }
-    
+
     var body: some View {
         return ZStack {
             NavigationView {
@@ -92,14 +95,16 @@ struct CallListView: View {
                     ForEach(callLists["callsVerified"] ?? []) { contact in
                         ContactCard(contact: contact, cta: unverifyCall, ctaSymbol: "xmark")
                     }
-                }.navigationTitle("Call List")
+                }
+                .navigationTitle("Call List")
             }
+
             if isFirstTimeUser {
                 WelcomeView()
             }
         }
     }
-    
+
     func makeCall(contact: Contact) {
         if let url = URL(string: "tel://\(contact.phone!)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -114,10 +119,10 @@ struct CallListView: View {
                        " and \(nsError.localizedDescription)")
         }
     }
-    
+
     func verifyCall(contact: Contact) {
         contact.lastCalled = Date.now
-        
+
         do {
             try viewContext.save()
         } catch {
@@ -126,7 +131,7 @@ struct CallListView: View {
                        " and \(nsError.localizedDescription)")
         }
     }
-    
+
     func unverifyCall(contact: Contact) {
         contact.lastCalled = contact.lastAttempted
         do {
@@ -137,7 +142,7 @@ struct CallListView: View {
                        " and \(nsError.localizedDescription)")
         }
     }
-    
+
 }
 
 struct PeopleView_Previews: PreviewProvider {

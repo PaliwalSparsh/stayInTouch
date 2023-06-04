@@ -47,7 +47,7 @@ file_length:
 type_name:
   min_length: 2 # only warning
   max_length: # warning and error
-    warning: 40
+    warning: 50
     error: 50
   excluded: iPhone # excluded via string
   allowed_symbols: ["_"] # these are allowed in type names
