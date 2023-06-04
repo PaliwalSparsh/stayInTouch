@@ -2,113 +2,97 @@ import SwiftUI
 import ContactsUI
 import CoreData
 
+struct ContactCard: View {
+    var contact: Contact
+    var cta: (_ contact: Contact) -> Void
+    var ctaSymbol: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "person.circle.fill")
+                .font(.system(size: 40))
+                .padding(.trailing, 4)
+            VStack(alignment: .leading) {
+                Text(contact.name ?? "None")
+                if contact.lastCalled! == getMinDate() {
+                    Text("Call them for the first time")
+                        .foregroundStyle(Color(.secondaryLabel))
+                } else {
+                    Text("Last called" + (contact.lastCalled ?? Date.now)
+                        .formatted(date: .abbreviated, time: .omitted))
+                    .foregroundStyle(Color(.secondaryLabel))
+                }
+            }
+            Spacer()
+            Button(action: { cta(contact) }, label: {
+                Image(systemName: ctaSymbol)
+                    .foregroundColor(.green)
+                    .frame(maxWidth: 40, maxHeight: 40)
+                    .background(Circle().fill(Color(.secondarySystemBackground)))
+            })
+        }
+    }
+}
+
 struct CallListView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
+    
     // We listen for when the value of isFirstTimeUser Changes
     @AppStorage("isFirstTimeUser") var isFirstTimeUser: Bool = true
-
+    
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Contact.name, ascending: true)])
     private var contacts: FetchedResults<Contact>
-
-    var callList: [Contact] {
-        var callList: [Contact] = []
+    
+    var callLists: [String: [Contact]] {
+        var callScheduled: [Contact] = []
         var callAttempted: [Contact] = []
+        var callVerified: [Contact] = []
+
         for contact in contacts {
+            var wasLastCalledWithinCurrentCallFrequency = false
+            var wasLastAttemptedWithinCurrentCallFrequency = false
+            var firstDayOfTheCallFrequency = Date()
+
             switch contact.callFrequency {
                 case "W":
-                
-                    let wasLastCalledBeforeCurrentWeek = getFirstDayOfTheWeek() > (contact.lastCalled ?? Date())
-
-                    if wasLastCalledBeforeCurrentWeek {
-                        callList.append(contact)
-                    }
-                
-                    if !wasLastCalledBeforeCurrentWeek && contact.callStatus == 1 {
-                        callAttempted.append(contact)
-                    }
-
+                    firstDayOfTheCallFrequency = getFirstDayOfTheWeek()
                 case "M":
-                    let wasLastCalledBeforeCurrentMonth = getFirstDayOfTheMonth() > (contact.lastCalled ?? Date())
-
-                    if wasLastCalledBeforeCurrentMonth {
-                        callList.append(contact)
-                    } else {
-                        if contact.callStatus == 1 {
-                            callAttempted.append(contact)
-                        }
-                    }
+                    firstDayOfTheCallFrequency = getFirstDayOfTheMonth()
                 case "Y":
-                    let wasLastCalledBeforeCurrentYear = getFirstDayOfTheYear() > (contact.lastCalled ?? Date())
-
-                    if wasLastCalledBeforeCurrentYear {
-                        callList.append(contact)
-                    } else {
-                        if contact.callStatus == 1 {
-                            callAttempted.append(contact)
-                        }
-                    }
+                    firstDayOfTheCallFrequency = getFirstDayOfTheYear()
                 default:
                     print("Not a default option")
             }
+            
+            wasLastCalledWithinCurrentCallFrequency = firstDayOfTheCallFrequency < (contact.lastCalled ?? Date())
+            wasLastAttemptedWithinCurrentCallFrequency = firstDayOfTheCallFrequency < (contact.lastAttempted ?? Date())
+            
+            if wasLastCalledWithinCurrentCallFrequency { callVerified.append(contact) }
+            if wasLastAttemptedWithinCurrentCallFrequency { callAttempted.append(contact) }
+            if !wasLastCalledWithinCurrentCallFrequency && !wasLastAttemptedWithinCurrentCallFrequency { callScheduled.append(contact) }
+            
         }
-        return callList
+        return ["callsScheduled": callScheduled, "callsVerified": callVerified, "callsAttempted": callAttempted]
     }
-
+    
     var body: some View {
         return ZStack {
             NavigationView {
                 VStack(alignment: .leading, spacing: 16) {
-                    ForEach(callList) { contact in
-                        HStack {
-                            Image(systemName: "person.circle.fill")
-                                .font(.system(size: 40))
-                                .padding(.trailing, 4)
-                            VStack(alignment: .leading) {
-                                Text(contact.name ?? "None")
-                                if contact.lastCalled! == getMinDate() {
-                                    Text("Call them for the first time")
-                                        .foregroundStyle(Color(.secondaryLabel))
-
-                                } else {
-                                    Text("Last called" + (contact.lastCalled ?? Date.now)
-                                        .formatted(date: .abbreviated, time: .omitted))
-                                    .foregroundStyle(Color(.secondaryLabel))
-                                }
-                            }
-                            Spacer()
-                            Button(action: {
-                                makeCall(contact: contact)
-                                putCallVerified(contact: contact)
-                            }, label: {
-                                Image(systemName: "phone.fill")
-                                    .foregroundColor(.green)
-                                    .frame(maxWidth: 40, maxHeight: 40)
-                                    .background(Circle().fill(Color(.secondarySystemBackground)))
-                            })
-                        }
+                    Text("To be called")
+                    ForEach(callLists["callsScheduled"] ?? []) { contact in
+                        ContactCard(contact: contact, cta: makeCall, ctaSymbol: "phone.fill")
+                    }
+                    Text("To be verified")
+                    ForEach(callLists["callsAttempted"] ?? []) { contact in
+                        ContactCard(contact: contact, cta: verifyCall, ctaSymbol: "checkmark")
+                    }
+                    Text("Already Called")
+                    ForEach(callLists["callsVerified"] ?? []) { contact in
+                        ContactCard(contact: contact, cta: unverifyCall, ctaSymbol: "xmark")
                     }
                 }.navigationTitle("Call List")
-            }.onAppear {
-                for contact in contacts {
-                    switch contact.callFrequency {
-                        case "W":
-                            if getFirstDayOfTheWeek() > (contact.lastCalled ?? Date()) {
-                                refreshCallStatusForContact(contact: contact)
-                            }
-                        case "M":
-                            if getFirstDayOfTheMonth() > (contact.lastCalled ?? Date()) {
-                                refreshCallStatusForContact(contact: contact)
-                            }
-                        case "Y":
-                            if getFirstDayOfTheYear() > (contact.lastCalled ?? Date()) {
-                                refreshCallStatusForContact(contact: contact)
-                            }
-                        default:
-                            print("Not a default option")
-                    }
-                }
             }
             if isFirstTimeUser {
                 WelcomeView()
@@ -116,27 +100,12 @@ struct CallListView: View {
         }
     }
     
-    func refreshCallStatusForContact(contact: Contact) {
-        contact.callStatus = 0
-
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
-                       " and \(nsError.localizedDescription)")
-        }
-    }
-
     func makeCall(contact: Contact) {
         if let url = URL(string: "tel://\(contact.phone!)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
-    }
 
-    func putCallVerified(contact: Contact) {
-        contact.lastCalled = Date.now
-
+        contact.lastAttempted = Date.now
         do {
             try viewContext.save()
         } catch {
@@ -145,6 +114,30 @@ struct CallListView: View {
                        " and \(nsError.localizedDescription)")
         }
     }
+    
+    func verifyCall(contact: Contact) {
+        contact.lastCalled = Date.now
+        
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
+                       " and \(nsError.localizedDescription)")
+        }
+    }
+    
+    func unverifyCall(contact: Contact) {
+        contact.lastCalled = contact.lastAttempted
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
+                       " and \(nsError.localizedDescription)")
+        }
+    }
+    
 }
 
 struct PeopleView_Previews: PreviewProvider {
