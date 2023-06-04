@@ -67,6 +67,7 @@ struct ContactsView: View {
     }
 
     private func addContact(contact: CNContact) {
+        print(contact)
         withAnimation {
             let newContact = Contact(context: viewContext)
             newContact.id = contact.identifier

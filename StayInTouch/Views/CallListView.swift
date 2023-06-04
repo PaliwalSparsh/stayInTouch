@@ -14,29 +14,49 @@ struct CallListView: View {
 
     var callList: [Contact] {
         var callList: [Contact] = []
+        var callAttempted: [Contact] = []
         for contact in contacts {
             switch contact.callFrequency {
-            case "W":
-                if getFirstDayOfTheWeek() > (contact.lastCalled ?? Date()) {
-                    callList.append(contact)
-                }
-            case "M":
-                if getFirstDayOfTheMonth() > (contact.lastCalled ?? Date()) {
-                    callList.append(contact)
-                }
-            case "Y":
-                if getFirstDayOfTheYear() > (contact.lastCalled ?? Date()) {
-                    callList.append(contact)
-                }
-            default:
-                print("Not a default option")
+                case "W":
+                
+                    let wasLastCalledBeforeCurrentWeek = getFirstDayOfTheWeek() > (contact.lastCalled ?? Date())
+
+                    if wasLastCalledBeforeCurrentWeek {
+                        callList.append(contact)
+                    }
+                
+                    if !wasLastCalledBeforeCurrentWeek && contact.callStatus == 1 {
+                        callAttempted.append(contact)
+                    }
+
+                case "M":
+                    let wasLastCalledBeforeCurrentMonth = getFirstDayOfTheMonth() > (contact.lastCalled ?? Date())
+
+                    if wasLastCalledBeforeCurrentMonth {
+                        callList.append(contact)
+                    } else {
+                        if contact.callStatus == 1 {
+                            callAttempted.append(contact)
+                        }
+                    }
+                case "Y":
+                    let wasLastCalledBeforeCurrentYear = getFirstDayOfTheYear() > (contact.lastCalled ?? Date())
+
+                    if wasLastCalledBeforeCurrentYear {
+                        callList.append(contact)
+                    } else {
+                        if contact.callStatus == 1 {
+                            callAttempted.append(contact)
+                        }
+                    }
+                default:
+                    print("Not a default option")
             }
         }
         return callList
     }
 
     var body: some View {
-
         return ZStack {
             NavigationView {
                 VStack(alignment: .leading, spacing: 16) {
@@ -70,10 +90,41 @@ struct CallListView: View {
                         }
                     }
                 }.navigationTitle("Call List")
+            }.onAppear {
+                for contact in contacts {
+                    switch contact.callFrequency {
+                        case "W":
+                            if getFirstDayOfTheWeek() > (contact.lastCalled ?? Date()) {
+                                refreshCallStatusForContact(contact: contact)
+                            }
+                        case "M":
+                            if getFirstDayOfTheMonth() > (contact.lastCalled ?? Date()) {
+                                refreshCallStatusForContact(contact: contact)
+                            }
+                        case "Y":
+                            if getFirstDayOfTheYear() > (contact.lastCalled ?? Date()) {
+                                refreshCallStatusForContact(contact: contact)
+                            }
+                        default:
+                            print("Not a default option")
+                    }
+                }
             }
             if isFirstTimeUser {
                 WelcomeView()
             }
+        }
+    }
+    
+    func refreshCallStatusForContact(contact: Contact) {
+        contact.callStatus = 0
+
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
+                       " and \(nsError.localizedDescription)")
         }
     }
 
