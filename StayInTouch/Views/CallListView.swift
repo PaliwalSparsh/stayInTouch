@@ -65,7 +65,7 @@ struct CallListView: View {
                 print("Not a default option")
             }
 
-            if firstDayOfTheCallFrequency < (contact.lastCalled ?? Date()) { // wasLastCalledWithinCurrentCallFrequency
+            if firstDayOfTheCallFrequency < (contact.lastCalled ?? Date()) { // wasLastCalledWithinCurrentCallFrequency, NOTE - this if else is dependent on order in which it's written.
                 callVerified.append(contact)
             } else if firstDayOfTheCallFrequency < (contact.lastAttempted ?? Date()) { // wasLastAttemptedWithinCurrentCallFrequency
                 callAttempted.append(contact)
@@ -121,7 +121,7 @@ struct CallListView: View {
     }
 
     func verifyCall(contact: Contact) {
-        contact.lastCalled = Date.now
+        contact.lastCalled = contact.lastAttempted
 
         do {
             try viewContext.save()
@@ -132,6 +132,7 @@ struct CallListView: View {
         }
     }
 
+    // This doesn't work properly
     func unverifyCall(contact: Contact) {
         contact.lastCalled = contact.lastAttempted
         do {
