@@ -44,7 +44,7 @@ struct CallListView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Contact.name, ascending: true)])
     private var contacts: FetchedResults<Contact>
 
-    var callLists: [String: [Contact]] {
+    var callLists: (callsScheduled: [Contact], callsVerified: [Contact], callsAttempted: [Contact]) {
         var callScheduled: [Contact] = []
         var callAttempted: [Contact] = []
         var callVerified: [Contact] = []
@@ -74,9 +74,9 @@ struct CallListView: View {
             }
 
         }
-        return ["callsScheduled": callScheduled,
-                "callsVerified": callVerified,
-                "callsAttempted": callAttempted]
+        return (callsScheduled: callScheduled,
+                callsVerified: callVerified,
+                callsAttempted: callAttempted)
     }
 
     var body: some View {
@@ -84,16 +84,12 @@ struct CallListView: View {
             NavigationView {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("To be called")
-                    ForEach(callLists["callsScheduled"] ?? []) { contact in
+                    ForEach(callLists.callsScheduled) { contact in
                         ContactCard(contact: contact, cta: makeCall, ctaSymbol: "phone.fill")
                     }
                     Text("To be verified")
-                    ForEach(callLists["callsAttempted"] ?? []) { contact in
+                    ForEach(callLists.callsAttempted) { contact in
                         ContactCard(contact: contact, cta: verifyCall, ctaSymbol: "checkmark")
-                    }
-                    Text("Already Called")
-                    ForEach(callLists["callsVerified"] ?? []) { contact in
-                        ContactCard(contact: contact, cta: unverifyCall, ctaSymbol: "xmark")
                     }
                 }
                 .navigationTitle("Call List")
@@ -123,18 +119,6 @@ struct CallListView: View {
     func verifyCall(contact: Contact) {
         contact.lastCalled = contact.lastAttempted
 
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
-                       " and \(nsError.localizedDescription)")
-        }
-    }
-
-    // This doesn't work properly
-    func unverifyCall(contact: Contact) {
-        contact.lastCalled = contact.lastAttempted
         do {
             try viewContext.save()
         } catch {
