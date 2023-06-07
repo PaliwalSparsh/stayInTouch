@@ -94,7 +94,8 @@ struct ContactsView: View {
         let newContact = Contact(context: viewContext)
         newContact.id = contact.identifier
         newContact.name = contact.givenName
-        newContact.phone = contact.phoneNumbers.map { $0.value.stringValue }
+        newContact.phone = contact.phoneNumbers.map { $0.value.value(forKey: "digits") as? String ?? "" }
+        print(newContact.phone)
         newContact.lastCalled = getMinDate()
         newContact.lastAttempted = getMinDate()
         newContact.callFrequency = "W"

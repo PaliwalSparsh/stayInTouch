@@ -2,49 +2,24 @@ import SwiftUI
 import ContactsUI
 import CoreData
 
-struct ContactCard: View {
-    var contact: Contact
-    var cta: (_ contact: Contact, _ phone: String) -> Void
-    var ctaSymbol: String
-
-    var body: some View {
-        HStack {
-            Image(systemName: "person.circle.fill")
-                .font(.system(size: 40))
-                .padding(.trailing, 4)
-            VStack(alignment: .leading) {
-                Text(contact.name ?? "None")
-                if contact.lastCalled! == getMinDate() {
-                    Text("Call them for the first time")
-                        .foregroundStyle(Color(.secondaryLabel))
-                } else {
-                    Text("Last called" + (contact.lastCalled ?? Date.now)
-                        .formatted(date: .abbreviated, time: .omitted))
+func contactCardView(contact: Contact, @ViewBuilder content: () -> some View) -> some View {
+    HStack {
+        Image(systemName: "person.circle.fill")
+            .font(.system(size: 40))
+            .padding(.trailing, 4)
+        VStack(alignment: .leading) {
+            Text(contact.name ?? "None")
+            if contact.lastCalled! == getMinDate() {
+                Text("Call them for the first time")
                     .foregroundStyle(Color(.secondaryLabel))
-                }
-            }
-            Spacer()
-            if(contact.phone?.count == 1) {
-                Button(action: { cta(contact, contact.phone![0]) }, label: {
-                    Image(systemName: ctaSymbol)
-                        .foregroundColor(.green)
-                        .frame(maxWidth: 40, maxHeight: 40)
-                        .background(Circle().fill(Color(.secondarySystemBackground)))
-                })
             } else {
-                Menu(content: {
-                    ForEach(contact.phone!, id: \.self) { phoneNumber in
-                        Button(phoneNumber, action: {cta(contact, phoneNumber)})
-                    }
-                }, label: {
-                    Image(systemName: ctaSymbol)
-                        .foregroundColor(.green)
-                        .frame(maxWidth: 40, maxHeight: 40)
-                        .background(Circle().fill(Color(.secondarySystemBackground)))
-
-                })
+                Text("Last called" + (contact.lastCalled ?? Date.now)
+                    .formatted(date: .abbreviated, time: .omitted))
+                .foregroundStyle(Color(.secondaryLabel))
             }
         }
+        Spacer()
+        content()
     }
 }
 
@@ -77,9 +52,12 @@ struct CallListView: View {
                 print("Not a default option")
             }
 
-            if firstDayOfTheCallFrequency < (contact.lastCalled ?? Date()) { // wasLastCalledWithinCurrentCallFrequency, NOTE - this if else is dependent on order in which it's written.
+            if firstDayOfTheCallFrequency < (contact.lastCalled ?? Date()) {
+                // wasLastCalledWithinCurrentCallFrequency
+                // NOTE - this if else is dependent on order in which it's written.
                 callVerified.append(contact)
-            } else if firstDayOfTheCallFrequency < (contact.lastAttempted ?? Date()) { // wasLastAttemptedWithinCurrentCallFrequency
+            } else if firstDayOfTheCallFrequency < (contact.lastAttempted ?? Date()) {
+                // wasLastAttemptedWithinCurrentCallFrequency
                 callAttempted.append(contact)
             } else {
                 callScheduled.append(contact)
@@ -97,11 +75,34 @@ struct CallListView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("To be called")
                     ForEach(callLists.callsScheduled) { contact in
-                        ContactCard(contact: contact, cta: makeCall, ctaSymbol: "phone.fill")
+                        contactCardView(contact: contact, content: {
+                            Menu(content: {
+                                ForEach(contact.phone!, id: \.self) { phoneNumber in
+                                    Button(phoneNumber, action: {
+                                        makeCall(contact: contact, phone: phoneNumber)
+                                    })
+                                }
+                            }, label: {
+                                Image(systemName: "phone.fill")
+                                    .foregroundColor(.green)
+                                    .frame(maxWidth: 40, maxHeight: 40)
+                                    .background(Circle().fill(Color(.secondarySystemBackground)))
+                            })
+                        })
                     }
                     Text("To be verified")
                     ForEach(callLists.callsAttempted) { contact in
-                        ContactCard(contact: contact, cta: verifyCall, ctaSymbol: "checkmark")
+                        contactCardView(contact: contact, content: {
+                                Button(action: {
+                                    verifyCall(contact: contact)
+                                }, label: {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(.green)
+                                        .frame(maxWidth: 40, maxHeight: 40)
+                                        .background(Circle().fill(Color(.secondarySystemBackground)))
+
+                                })
+                        })
                     }
                 }
                 .navigationTitle("Call List")
@@ -116,6 +117,10 @@ struct CallListView: View {
     func makeCall(contact: Contact, phone: String) {
         if let url = URL(string: "tel://\(phone)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            print("Calling: ", phone)
+        } else {
+            print("Call didn't happen for: ", phone)
+            return
         }
 
         contact.lastAttempted = Date.now
@@ -128,7 +133,7 @@ struct CallListView: View {
         }
     }
 
-    func verifyCall(contact: Contact, _ phone: String) {
+    func verifyCall(contact: Contact) {
         contact.lastCalled = contact.lastAttempted
 
         do {
