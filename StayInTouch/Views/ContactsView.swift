@@ -18,6 +18,8 @@ struct ContactsView: View {
     private var contacts: FetchedResults<Contact>
 
     @State var showPicker = false
+    @State var showDuplicateContactAlert = false
+    @State var selectedContact: CNContact?
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -25,8 +27,13 @@ struct ContactsView: View {
                 showPicker: $showPicker,
                 // Always use onSelectContact, if you use onSelectContacts i.e. allow multiple
                 // selections, Search bar in Contact Picker UI disappears which is really bad UX for users.
-                onSelectContact: { selectedContact in
-                    addContact(contact: selectedContact)
+                onSelectContact: { contact in
+                    if checkIfContactAlreadyExists(contact: contact) {
+                        showDuplicateContactAlert = true
+                        selectedContact = contact
+                    } else {
+                        addContact(contact: contact)
+                    }
                 }
             )
 
@@ -64,26 +71,42 @@ struct ContactsView: View {
                 .navigationTitle("My People")
             }
         }
+        .alert("Contact already exists. Do you want to override?", isPresented: $showDuplicateContactAlert) {
+            Button("Yes", role: .destructive) {
+                addContact(contact: selectedContact!)
+                selectedContact = nil
+            }
+            Button("No", role: .cancel) {
+                selectedContact = nil
+            }
+        }
+    }
+
+    private func checkIfContactAlreadyExists(contact contactToCheck: CNContact) -> Bool {
+        for contact in contacts where contact.id == contactToCheck.identifier {
+            return true
+        }
+        return false
     }
 
     private func addContact(contact: CNContact) {
+        // check if its repetitive
         print(contact)
-        withAnimation {
-            let newContact = Contact(context: viewContext)
-            newContact.id = contact.identifier
-            newContact.name = contact.givenName
-            newContact.phone = (contact.phoneNumbers[0].value ).value(forKey: "digits") as? String
-            newContact.lastCalled = getMinDate()
-            newContact.lastAttempted = getMinDate()
-            newContact.callFrequency = "W"
 
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
-                           " and \(nsError.localizedDescription)")
-            }
+        let newContact = Contact(context: viewContext)
+        newContact.id = contact.identifier
+        newContact.name = contact.givenName
+        newContact.phone = (contact.phoneNumbers[0].value ).value(forKey: "digits") as? String
+        newContact.lastCalled = getMinDate()
+        newContact.lastAttempted = getMinDate()
+        newContact.callFrequency = "W"
+
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)," +
+                       " and \(nsError.localizedDescription)")
         }
     }
 
