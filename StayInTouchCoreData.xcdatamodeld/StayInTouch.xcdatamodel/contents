@@ -6,7 +6,7 @@
         <attribute name="lastAttempted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastCalled" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>

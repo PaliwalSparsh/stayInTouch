@@ -4,7 +4,7 @@ import CoreData
 
 struct ContactCard: View {
     var contact: Contact
-    var cta: (_ contact: Contact) -> Void
+    var cta: (_ contact: Contact, _ phone: String) -> Void
     var ctaSymbol: String
 
     var body: some View {
@@ -24,12 +24,26 @@ struct ContactCard: View {
                 }
             }
             Spacer()
-            Button(action: { cta(contact) }, label: {
-                Image(systemName: ctaSymbol)
-                    .foregroundColor(.green)
-                    .frame(maxWidth: 40, maxHeight: 40)
-                    .background(Circle().fill(Color(.secondarySystemBackground)))
-            })
+            if(contact.phone?.count == 1) {
+                Button(action: { cta(contact, contact.phone![0]) }, label: {
+                    Image(systemName: ctaSymbol)
+                        .foregroundColor(.green)
+                        .frame(maxWidth: 40, maxHeight: 40)
+                        .background(Circle().fill(Color(.secondarySystemBackground)))
+                })
+            } else {
+                Menu(content: {
+                    ForEach(contact.phone!, id: \.self) { phoneNumber in
+                        Button(phoneNumber, action: {cta(contact, phoneNumber)})
+                    }
+                }, label: {
+                    Image(systemName: ctaSymbol)
+                        .foregroundColor(.green)
+                        .frame(maxWidth: 40, maxHeight: 40)
+                        .background(Circle().fill(Color(.secondarySystemBackground)))
+
+                })
+            }
         }
     }
 }
@@ -50,8 +64,6 @@ struct CallListView: View {
         var callVerified: [Contact] = []
 
         for contact in contacts {
-            var wasLastCalledWithinCurrentCallFrequency = false
-            var wasLastAttemptedWithinCurrentCallFrequency = false
             var firstDayOfTheCallFrequency = Date()
 
             switch contact.callFrequency {
@@ -101,8 +113,8 @@ struct CallListView: View {
         }
     }
 
-    func makeCall(contact: Contact) {
-        if let url = URL(string: "tel://\(contact.phone!)") {
+    func makeCall(contact: Contact, phone: String) {
+        if let url = URL(string: "tel://\(phone)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
 
@@ -116,7 +128,7 @@ struct CallListView: View {
         }
     }
 
-    func verifyCall(contact: Contact) {
+    func verifyCall(contact: Contact, _ phone: String) {
         contact.lastCalled = contact.lastAttempted
 
         do {

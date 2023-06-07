@@ -91,12 +91,10 @@ struct ContactsView: View {
 
     private func addContact(contact: CNContact) {
         // check if its repetitive
-        print(contact)
-
         let newContact = Contact(context: viewContext)
         newContact.id = contact.identifier
         newContact.name = contact.givenName
-        newContact.phone = (contact.phoneNumbers[0].value ).value(forKey: "digits") as? String
+        newContact.phone = contact.phoneNumbers.map { $0.value.stringValue }
         newContact.lastCalled = getMinDate()
         newContact.lastAttempted = getMinDate()
         newContact.callFrequency = "W"
