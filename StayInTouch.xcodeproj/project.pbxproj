@@ -18,6 +18,7 @@
 		75675D2D29AB00E0006A990F /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2529AB00E0006A990F /* ContactsView.swift */; };
 		75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75675D2929AB00E0006A990F /* ContactPicker.swift */; };
 		756B25FC29BC2BE4005E4E80 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756B25FB29BC2BE4005E4E80 /* ContactView.swift */; };
+		75BCC0112A3BB6F10055C299 /* TempView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BCC0102A3BB6F10055C299 /* TempView.swift */; };
 		75D8C17729B7F021000691A2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D8C17629B7F021000691A2 /* WelcomeView.swift */; };
 		75DB35F229ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 75DB35F029ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -35,6 +36,7 @@
 		75675D2529AB00E0006A990F /* ContactsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		75675D2929AB00E0006A990F /* ContactPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactPicker.swift; sourceTree = "<group>"; };
 		756B25FB29BC2BE4005E4E80 /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
+		75BCC0102A3BB6F10055C299 /* TempView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempView.swift; sourceTree = "<group>"; };
 		75D8C17629B7F021000691A2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		75DB35F129ABCC1300D5A34F /* StayInTouch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StayInTouch.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,6 +95,7 @@
 		75675D2329AB00E0006A990F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				75BCC00F2A3BB5870055C299 /* Components */,
 				75675D0D29AB00AB006A990F /* EntryView.swift */,
 				75D8C17629B7F021000691A2 /* WelcomeView.swift */,
 				75675D2429AB00E0006A990F /* CallListView.swift */,
@@ -116,6 +119,14 @@
 				756B25FB29BC2BE4005E4E80 /* ContactView.swift */,
 			);
 			path = Archive;
+			sourceTree = "<group>";
+		};
+		75BCC00F2A3BB5870055C299 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				75BCC0102A3BB6F10055C299 /* TempView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +230,7 @@
 				75675D2D29AB00E0006A990F /* ContactsView.swift in Sources */,
 				75675D3029AB00E0006A990F /* ContactPicker.swift in Sources */,
 				75675D0C29AB00AB006A990F /* StayInTouchApp.swift in Sources */,
+				75BCC0112A3BB6F10055C299 /* TempView.swift in Sources */,
 				75DB35F229ABCC1300D5A34F /* StayInTouchCoreData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
