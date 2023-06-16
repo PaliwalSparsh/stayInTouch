@@ -71,24 +71,26 @@ struct CallListView: View {
 
     var body: some View {
         ZStack {
-            VStack {
+            ScrollView {
                 VStack(alignment: .leading) {
                     Label("Call", systemImage: "phone.fill").bold()
-                    ForEach(callLists.callsScheduled) { contact in
-                        contactCardView(contact: contact, content: {
-                            Menu(content: {
-                                ForEach(contact.phone!, id: \.self) { phoneNumber in
-                                    Button(phoneNumber, action: {
-                                        makeCall(contact: contact, phone: phoneNumber)
-                                    })
-                                }
-                            }, label: {
-                                Image(systemName: "phone.fill")
-                                    .foregroundColor(Color(.systemGreen))
-                                    .frame(maxWidth: 40, maxHeight: 40)
-                                    .background(Circle().fill(Color(.tertiarySystemBackground)))
+                    if(!callLists.callsScheduled.isEmpty) {
+                        ForEach(callLists.callsScheduled) { contact in
+                            contactCardView(contact: contact, content: {
+                                Menu(content: {
+                                    ForEach(contact.phone!, id: \.self) { phoneNumber in
+                                        Button(phoneNumber, action: {
+                                            makeCall(contact: contact, phone: phoneNumber)
+                                        })
+                                    }
+                                }, label: {
+                                    Image(systemName: "phone.fill")
+                                        .foregroundColor(Color(.systemGreen))
+                                        .frame(maxWidth: 40, maxHeight: 40)
+                                        .background(Circle().fill(Color(.tertiarySystemBackground)))
+                                })
                             })
-                        })
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -96,18 +98,28 @@ struct CallListView: View {
 
                 VStack(alignment: .leading) {
                     Label("Verify", systemImage: "checkmark").bold()
-                    ForEach(callLists.callsAttempted) { contact in
-                        contactCardView(contact: contact, content: {
-                                Button(action: {
-                                    verifyCall(contact: contact)
-                                }, label: {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(Color(.systemOrange))
-                                        .frame(maxWidth: 40, maxHeight: 40)
-                                        .background(Circle().fill(Color(.tertiarySystemBackground)))
-                                })
-                        })
+                    if(callLists.callsAttempted.isEmpty) {
+                        Text("You are all set! No calls to be made right now.")
+                            .multilineTextAlignment(.center)
+                            .font(.system(.body, design: .rounded)).bold()
+                            .foregroundStyle(Color(.tertiaryLabel))
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    } else {
+                        ForEach(callLists.callsAttempted) { contact in
+                            contactCardView(contact: contact, content: {
+                                    Button(action: {
+                                        verifyCall(contact: contact)
+                                    }, label: {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(Color(.systemOrange))
+                                            .frame(maxWidth: 40, maxHeight: 40)
+                                            .background(Circle().fill(Color(.tertiarySystemBackground)))
+                                    })
+                            })
+                        }
                     }
+
                 }.frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
             }.padding(.horizontal, 8)

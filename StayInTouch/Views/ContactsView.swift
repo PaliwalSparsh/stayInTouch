@@ -96,7 +96,7 @@ struct ContactsView: View {
                     Button {
                         self.showPicker.toggle()
                     } label: {
-                        Text("\(Image(systemName: "plus.circle.fill")) Add Contacts")
+                        Text("\(Image(systemName: "plus.circle.fill")) Add Contacts").font(.system(.body, design: .rounded)).bold().foregroundStyle(Color(.secondaryLabel))
                     }.buttonStyle(.plain)
                     Spacer()
                 }

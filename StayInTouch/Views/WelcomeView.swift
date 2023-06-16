@@ -16,7 +16,6 @@ struct FeatureListItem: View {
         HStack {
             Image(systemName: icon)
                 .font(.largeTitle)
-                .foregroundStyle(Color(.tintColor))
                 .frame(maxWidth: 48, maxHeight: 48)
                 .padding(.trailing, 8)
             VStack(alignment: .leading) {
@@ -32,7 +31,7 @@ struct WelcomeView: View {
         VStack {
             VStack(spacing: -12) {
                 Text("Welcome to ")
-                Text("Remember Me!").foregroundColor(.accentColor)
+                Text("Call My Folks!").foregroundColor(Color(.tintColor))
             }
             .font(
                 .system(size: 48, design: .rounded)
@@ -47,13 +46,13 @@ struct WelcomeView: View {
             VStack(alignment: .leading, spacing: 16) {
                 FeatureListItem(icon: "person.crop.circle.fill.badge.plus",
                                 title: "Add you contacts",
-                                description: "Tap the Add button and search for your contacts. You can add as many as you want!")
+                                description: "Search and add your family members and friends. You can add as many as you want!")
                 FeatureListItem(icon: "waveform.path.ecg.rectangle.fill",
                                 title: "Set your call frequency",
                                 description: "How often do you want to call your contacts? Choose once a week, once a month, or once a year.")
                 FeatureListItem(icon: "phone.connection.fill",
-                                title: "Get a call list everyday!",
-                                description: "Everyday, we'll create a list of people you need to call based on your selected frequency.")
+                                title: "Get a call list everyweek!",
+                                description: "Everyweek, we'll create a list of people you need to call based on your selected frequency.")
             }
             // swiftlint:enable line_length
 
