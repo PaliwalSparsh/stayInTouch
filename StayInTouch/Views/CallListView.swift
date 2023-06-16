@@ -3,23 +3,23 @@ import ContactsUI
 import CoreData
 
 func contactCardView(contact: Contact, @ViewBuilder content: () -> some View) -> some View {
-    HStack {
-        Image(systemName: "person.circle.fill")
-            .font(.system(size: 40))
-            .padding(.trailing, 4)
-        VStack(alignment: .leading) {
-            Text(contact.name ?? "None")
-            if contact.lastCalled! == getMinDate() {
-                Text("Call them for the first time")
-                    .foregroundStyle(Color(.secondaryLabel))
-            } else {
-                Text("Last called" + (contact.lastCalled ?? Date.now)
-                    .formatted(date: .abbreviated, time: .omitted))
-                .foregroundStyle(Color(.secondaryLabel))
-            }
-        }
-        Spacer()
+    LabeledContent {
         content()
+    } label: {
+        Text(contact.name ?? "None").font(.system(.body, design: .rounded)).bold()
+        if contact.lastCalled! == getMinDate() {
+            Text("Call them for the first time")
+                .foregroundStyle(Color(.secondaryLabel))
+        } else {
+            Text("Last called" + (contact.lastCalled ?? Date.now)
+                .formatted(date: .abbreviated, time: .omitted))
+            .foregroundStyle(Color(.secondaryLabel))
+        }
+    }
+    .padding(16)
+    .background {
+        RoundedRectangle(cornerRadius: 12)
+            .fill(Color(.secondarySystemBackground))
     }
 }
 
@@ -71,40 +71,46 @@ struct CallListView: View {
 
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 16) {
-                Text("To be called")
-                ForEach(callLists.callsScheduled) { contact in
-                    contactCardView(contact: contact, content: {
-                        Menu(content: {
-                            ForEach(contact.phone!, id: \.self) { phoneNumber in
-                                Button(phoneNumber, action: {
-                                    makeCall(contact: contact, phone: phoneNumber)
-                                })
-                            }
-                        }, label: {
-                            Image(systemName: "phone.fill")
-                                .foregroundColor(.green)
-                                .frame(maxWidth: 40, maxHeight: 40)
-                                .background(Circle().fill(Color(.secondarySystemBackground)))
-                        })
-                    })
-                }
-                Text("To be verified")
-                ForEach(callLists.callsAttempted) { contact in
-                    contactCardView(contact: contact, content: {
-                            Button(action: {
-                                verifyCall(contact: contact)
+            VStack {
+                VStack(alignment: .leading) {
+                    Label("Call", systemImage: "phone.fill").bold()
+                    ForEach(callLists.callsScheduled) { contact in
+                        contactCardView(contact: contact, content: {
+                            Menu(content: {
+                                ForEach(contact.phone!, id: \.self) { phoneNumber in
+                                    Button(phoneNumber, action: {
+                                        makeCall(contact: contact, phone: phoneNumber)
+                                    })
+                                }
                             }, label: {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.green)
+                                Image(systemName: "phone.fill")
+                                    .foregroundColor(Color(.systemGreen))
                                     .frame(maxWidth: 40, maxHeight: 40)
-                                    .background(Circle().fill(Color(.secondarySystemBackground)))
-
+                                    .background(Circle().fill(Color(.tertiarySystemBackground)))
                             })
-                    })
+                        })
+                    }
                 }
-            }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 16)
+
+                VStack(alignment: .leading) {
+                    Label("Verify", systemImage: "checkmark").bold()
+                    ForEach(callLists.callsAttempted) { contact in
+                        contactCardView(contact: contact, content: {
+                                Button(action: {
+                                    verifyCall(contact: contact)
+                                }, label: {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(Color(.systemOrange))
+                                        .frame(maxWidth: 40, maxHeight: 40)
+                                        .background(Circle().fill(Color(.tertiarySystemBackground)))
+                                })
+                        })
+                    }
+                }.frame(maxWidth: .infinity, alignment: .leading)
+                Spacer()
+            }.padding(.horizontal)
 
             if isFirstTimeUser {
                 WelcomeView()

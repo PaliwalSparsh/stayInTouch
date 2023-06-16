@@ -16,7 +16,7 @@ struct FeatureListItem: View {
         HStack {
             Image(systemName: icon)
                 .font(.largeTitle)
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(Color(.tintColor))
                 .frame(maxWidth: 48, maxHeight: 48)
                 .padding(.trailing, 8)
             VStack(alignment: .leading) {

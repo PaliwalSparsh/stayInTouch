@@ -33,7 +33,7 @@ struct EntryView: View {
                 default:
                     Text("No View found")
                 }
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
     }
 }

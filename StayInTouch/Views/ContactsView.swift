@@ -29,7 +29,6 @@ struct ContactsView: View {
     @State var selectedContact: CNContact?
 
     var body: some View {
-
             ZStack {
                 ContactPicker(
                     showPicker: $showPicker,
@@ -52,9 +51,9 @@ struct ContactsView: View {
                                     putCallFrequency(contact: contact, callFrequency: "W")
                                 } label: {
                                     Circle()
-                                    .fill(Color(contact.callFrequency == "W" ? .blue: .tertiarySystemBackground))
+                                        .fill(Color(contact.callFrequency == "W" ? .tintColor: .tertiarySystemBackground))
                                     .overlay {
-                                        Text("W").foregroundColor(Color.primary)
+                                        Text("W").foregroundColor(Color(.label))
                                     }.frame(width:40, height: 40)
                                 }
 
@@ -62,9 +61,9 @@ struct ContactsView: View {
                                     putCallFrequency(contact: contact, callFrequency: "M")
                                 } label: {
                                     Circle()
-                                    .fill(Color(contact.callFrequency == "M" ? .blue: .tertiarySystemBackground))
+                                    .fill(Color(contact.callFrequency == "M" ? .tintColor: .tertiarySystemBackground))
                                     .overlay {
-                                        Text("M").foregroundColor(Color.primary)
+                                        Text("M").foregroundColor(Color(.label))
                                     }.frame(width:40, height: 40)
                                 }
 
@@ -72,26 +71,26 @@ struct ContactsView: View {
                                     putCallFrequency(contact: contact, callFrequency: "Y")
                                 } label: {
                                     Circle()
-                                    .fill(Color(contact.callFrequency == "Y" ? .blue: .tertiarySystemBackground))
+                                    .fill(Color(contact.callFrequency == "Y" ? .tintColor: .tertiarySystemBackground))
                                     .overlay {
-                                        Text("Y").foregroundColor(Color.primary)
+                                        Text("Y").foregroundColor(Color(.label))
                                     }.frame(width:40, height: 40)
                                 }
                             }
                         } label: {
-                            Text(contact.name ?? "None")
+                            Text(contact.name ?? "None").font(.system(.body, design: .rounded)).bold()
                             if contact.lastCalled! == getMinDate() {
                                 Text("Call them for the first time")
                                     .foregroundStyle(Color(.secondaryLabel))
                             } else {
-                                Text("Last called" + (contact.lastCalled ?? Date.now)
+                                Text("Last called " + (contact.lastCalled ?? Date.now)
                                     .formatted(date: .abbreviated, time: .omitted))
                                 .foregroundStyle(Color(.secondaryLabel))
                             }
                         }
                         .padding(16)
                         .background {
-                            RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.secondarySystemBackground))
+                            RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground))
                         }
                     }
                 }
