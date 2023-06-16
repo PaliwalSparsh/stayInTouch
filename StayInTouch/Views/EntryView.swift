@@ -13,25 +13,28 @@ struct EntryView: View {
     let topLevelViews = ["Call List", "Contacts"]
 
     var body: some View {
-        VStack {
-            Picker("main view", selection: $currentView) {
-                ForEach(topLevelViews, id: \.self) {
-                    Text($0)
+        // TODO: Navigation View is required to have Toolbar Items properly aligned. We will move this to upper layer.
+        NavigationView {
+            VStack {
+                Picker("main view", selection: $currentView) {
+                    ForEach(topLevelViews, id: \.self) {
+                        Text($0)
+                    }
                 }
-            }
-            .pickerStyle(.segmented)
-            .frame(width: 200)
-            .padding(.vertical, 24)
+                .pickerStyle(.segmented)
+                .frame(width: 200)
+                .padding(.vertical)
 
-            switch currentView {
-            case "Call List":
-                CallListView()
-            case "Contacts":
-                ContactsView()
-            default:
-                Text("No View found")
-            }
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                switch currentView {
+                case "Call List":
+                    CallListView()
+                case "Contacts":
+                    ContactsView()
+                default:
+                    Text("No View found")
+                }
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
     }
 }
 

@@ -29,32 +29,21 @@ struct ContactsView: View {
     @State var selectedContact: CNContact?
 
     var body: some View {
-        ZStack {
-            ContactPicker(
-                showPicker: $showPicker,
-                // Always use onSelectContact, if you use onSelectContacts i.e. allow multiple
-                // selections, Search bar in Contact Picker UI disappears which is really bad UX for users.
-                onSelectContact: { contact in
-                    if checkIfContactAlreadyExists(contact: contact) {
-                        showDuplicateContactAlert = true
-                        selectedContact = contact
-                    } else {
-                        addContact(contact: contact)
+
+            ZStack {
+                ContactPicker(
+                    showPicker: $showPicker,
+                    // Always use onSelectContact, if you use onSelectContacts i.e. allow multiple
+                    // selections, Search bar in Contact Picker UI disappears which is really bad UX for users.
+                    onSelectContact: { contact in
+                        if checkIfContactAlreadyExists(contact: contact) {
+                            showDuplicateContactAlert = true
+                            selectedContact = contact
+                        } else {
+                            addContact(contact: contact)
+                        }
                     }
-                }
-            )
-            VStack {
-                    Button {
-                        self.showPicker.toggle()
-                    } label: {
-                        Text("\(Image(systemName: "plus")) Add Contacts")
-                            .frame(maxWidth: .infinity)
-                    }.buttonStyle(.plain)
-                    .foregroundColor(.accentColor)
-                    .padding(16)
-                    .background {
-                        RoundedRectangle(cornerRadius: 12).fill(.thinMaterial)
-                    }
+                )
                 ScrollView {
                     ForEach(contacts) { contact in
                         LabeledContent {
@@ -102,22 +91,31 @@ struct ContactsView: View {
                         }
                         .padding(16)
                         .background {
-                            RoundedRectangle(cornerRadius: 12).fill(.thinMaterial)
+                            RoundedRectangle(cornerRadius: 12).fill(Color(UIColor.secondarySystemBackground))
                         }
                     }
                 }
-
+                .padding(.horizontal, 8)
             }
-        }
-        .alert("Contact already exists. Do you want to override?", isPresented: $showDuplicateContactAlert) {
-            Button("Yes", role: .destructive) {
-                addContact(contact: selectedContact!)
-                selectedContact = nil
+            .alert("Contact already exists. Do you want to override?", isPresented: $showDuplicateContactAlert) {
+                Button("Yes", role: .destructive) {
+                    addContact(contact: selectedContact!)
+                    selectedContact = nil
+                }
+                Button("No", role: .cancel) {
+                    selectedContact = nil
+                }
             }
-            Button("No", role: .cancel) {
-                selectedContact = nil
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Button {
+                        self.showPicker.toggle()
+                    } label: {
+                        Text("\(Image(systemName: "plus.circle.fill")) Add Contacts")
+                    }.buttonStyle(.plain)
+                    Spacer()
+                }
             }
-        }
     }
 
     private func checkIfContactAlreadyExists(contact contactToCheck: CNContact) -> Bool {
@@ -174,6 +172,6 @@ struct ContactsView: View {
 
 struct StatsView_Previews: PreviewProvider {
     static var previews: some View {
-        ContactsView().preferredColorScheme(.dark)
+        ContactsView()
     }
 }
