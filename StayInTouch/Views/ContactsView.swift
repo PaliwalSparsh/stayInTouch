@@ -45,7 +45,7 @@ struct ContactsView: View {
                 )
                 ScrollView {
                     ForEach(contacts) { contact in
-                        LabeledContent {
+                        contactCardView(contact: contact) {
                             HStack {
                                 Button {
                                     putCallFrequency(contact: contact, callFrequency: "W")
@@ -77,20 +77,6 @@ struct ContactsView: View {
                                     }.frame(width:40, height: 40)
                                 }
                             }
-                        } label: {
-                            Text(contact.name ?? "None").font(.system(.body, design: .rounded)).bold()
-                            if contact.lastCalled! == getMinDate() {
-                                Text("Call them for the first time")
-                                    .foregroundStyle(Color(.secondaryLabel))
-                            } else {
-                                Text("Last called " + (contact.lastCalled ?? Date.now)
-                                    .formatted(date: .abbreviated, time: .omitted))
-                                .foregroundStyle(Color(.secondaryLabel))
-                            }
-                        }
-                        .padding(16)
-                        .background {
-                            RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground))
                         }
                     }
                 }

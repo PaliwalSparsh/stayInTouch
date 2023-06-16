@@ -110,7 +110,7 @@ struct CallListView: View {
                     }
                 }.frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
-            }.padding(.horizontal)
+            }.padding(.horizontal, 8)
 
             if isFirstTimeUser {
                 WelcomeView()
