@@ -9,6 +9,13 @@ import SwiftUI
 import ContactsUI
 import CoreData
 
+func cardView(@ViewBuilder content: () -> some View) -> some View {
+    ZStack {
+        RoundedRectangle(cornerRadius: 10)
+        content()
+    }
+}
+
 struct ContactsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
@@ -22,7 +29,7 @@ struct ContactsView: View {
     @State var selectedContact: CNContact?
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        ZStack {
             ContactPicker(
                 showPicker: $showPicker,
                 // Always use onSelectContact, if you use onSelectContacts i.e. allow multiple
@@ -36,39 +43,70 @@ struct ContactsView: View {
                     }
                 }
             )
-
-            NavigationView {
-                VStack(alignment: .leading, spacing: 16) {
-                    Button(action: {
+            VStack {
+                    Button {
                         self.showPicker.toggle()
-                    }, label: {
+                    } label: {
                         Text("\(Image(systemName: "plus")) Add Contacts")
-                    })
-
+                            .frame(maxWidth: .infinity)
+                    }.buttonStyle(.plain)
+                    .foregroundColor(.accentColor)
+                    .padding(16)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12).fill(.thinMaterial)
+                    }
+                ScrollView {
                     ForEach(contacts) { contact in
-                        HStack {
-                            Text(contact.name ?? "").font(.subheadline)
-                            Spacer()
-                            Button("W") {
-                                putCallFrequency(contact: contact, callFrequency: "W")
-                            }.background {
-                                Color(contact.callFrequency == "W" ? .yellow: .systemBackground)
+                        LabeledContent {
+                            HStack {
+                                Button {
+                                    putCallFrequency(contact: contact, callFrequency: "W")
+                                } label: {
+                                    Circle()
+                                    .fill(Color(contact.callFrequency == "W" ? .blue: .tertiarySystemBackground))
+                                    .overlay {
+                                        Text("W").foregroundColor(Color.primary)
+                                    }.frame(width:40, height: 40)
+                                }
+
+                                Button {
+                                    putCallFrequency(contact: contact, callFrequency: "M")
+                                } label: {
+                                    Circle()
+                                    .fill(Color(contact.callFrequency == "M" ? .blue: .tertiarySystemBackground))
+                                    .overlay {
+                                        Text("M").foregroundColor(Color.primary)
+                                    }.frame(width:40, height: 40)
+                                }
+
+                                Button {
+                                    putCallFrequency(contact: contact, callFrequency: "Y")
+                                } label: {
+                                    Circle()
+                                    .fill(Color(contact.callFrequency == "Y" ? .blue: .tertiarySystemBackground))
+                                    .overlay {
+                                        Text("Y").foregroundColor(Color.primary)
+                                    }.frame(width:40, height: 40)
+                                }
                             }
-                            Button("M") {
-                                putCallFrequency(contact: contact, callFrequency: "M")
-                            }.background {
-                                Color(contact.callFrequency == "M" ? .yellow: .systemBackground)
+                        } label: {
+                            Text(contact.name ?? "None")
+                            if contact.lastCalled! == getMinDate() {
+                                Text("Call them for the first time")
+                                    .foregroundStyle(Color(.secondaryLabel))
+                            } else {
+                                Text("Last called" + (contact.lastCalled ?? Date.now)
+                                    .formatted(date: .abbreviated, time: .omitted))
+                                .foregroundStyle(Color(.secondaryLabel))
                             }
-                            Button("Y") {
-                                putCallFrequency(contact: contact, callFrequency: "Y")
-                            }.background {
-                                Color(contact.callFrequency == "Y" ? .yellow: .systemBackground)
-                            }
+                        }
+                        .padding(16)
+                        .background {
+                            RoundedRectangle(cornerRadius: 12).fill(.thinMaterial)
                         }
                     }
                 }
-                .padding(.horizontal, 16)
-                .navigationTitle("My People")
+
             }
         }
         .alert("Contact already exists. Do you want to override?", isPresented: $showDuplicateContactAlert) {

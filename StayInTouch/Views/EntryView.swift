@@ -9,15 +9,29 @@ import SwiftUI
 import CoreData
 
 struct EntryView: View {
+    @State private var currentView = "Call List"
+    let topLevelViews = ["Call List", "Contacts"]
+
     var body: some View {
-        TabView {
-            CallListView().tabItem {
-                Label("Call List", systemImage: "list.bullet.rectangle.portrait.fill")
+        VStack {
+            Picker("main view", selection: $currentView) {
+                ForEach(topLevelViews, id: \.self) {
+                    Text($0)
+                }
             }
-            ContactsView().tabItem {
-                Label("Contacts", systemImage: "person.crop.rectangle.stack.fill")
+            .pickerStyle(.segmented)
+            .frame(width: 200)
+            .padding(.vertical, 24)
+
+            switch currentView {
+            case "Call List":
+                CallListView()
+            case "Contacts":
+                ContactsView()
+            default:
+                Text("No View found")
             }
-        }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

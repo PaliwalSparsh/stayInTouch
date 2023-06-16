@@ -70,43 +70,41 @@ struct CallListView: View {
     }
 
     var body: some View {
-        return ZStack {
-            NavigationView {
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("To be called")
-                    ForEach(callLists.callsScheduled) { contact in
-                        contactCardView(contact: contact, content: {
-                            Menu(content: {
-                                ForEach(contact.phone!, id: \.self) { phoneNumber in
-                                    Button(phoneNumber, action: {
-                                        makeCall(contact: contact, phone: phoneNumber)
-                                    })
-                                }
+        ZStack {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("To be called")
+                ForEach(callLists.callsScheduled) { contact in
+                    contactCardView(contact: contact, content: {
+                        Menu(content: {
+                            ForEach(contact.phone!, id: \.self) { phoneNumber in
+                                Button(phoneNumber, action: {
+                                    makeCall(contact: contact, phone: phoneNumber)
+                                })
+                            }
+                        }, label: {
+                            Image(systemName: "phone.fill")
+                                .foregroundColor(.green)
+                                .frame(maxWidth: 40, maxHeight: 40)
+                                .background(Circle().fill(Color(.secondarySystemBackground)))
+                        })
+                    })
+                }
+                Text("To be verified")
+                ForEach(callLists.callsAttempted) { contact in
+                    contactCardView(contact: contact, content: {
+                            Button(action: {
+                                verifyCall(contact: contact)
                             }, label: {
-                                Image(systemName: "phone.fill")
+                                Image(systemName: "checkmark")
                                     .foregroundColor(.green)
                                     .frame(maxWidth: 40, maxHeight: 40)
                                     .background(Circle().fill(Color(.secondarySystemBackground)))
-                            })
-                        })
-                    }
-                    Text("To be verified")
-                    ForEach(callLists.callsAttempted) { contact in
-                        contactCardView(contact: contact, content: {
-                                Button(action: {
-                                    verifyCall(contact: contact)
-                                }, label: {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(.green)
-                                        .frame(maxWidth: 40, maxHeight: 40)
-                                        .background(Circle().fill(Color(.secondarySystemBackground)))
 
-                                })
-                        })
-                    }
+                            })
+                    })
                 }
-                .navigationTitle("Call List")
             }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if isFirstTimeUser {
                 WelcomeView()
