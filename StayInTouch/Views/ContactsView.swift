@@ -16,6 +16,27 @@ func cardView(@ViewBuilder content: () -> some View) -> some View {
     }
 }
 
+struct CircularToggle: View {
+    var label: String
+    var isSelected: Bool
+    var action: () -> Void
+
+    var body: some View {
+        Button {
+            let impact = UIImpactFeedbackGenerator(style: .light)
+            impact.impactOccurred()
+            action()
+        } label: {
+            Circle()
+            .fill(Color(isSelected ? .tintColor: .tertiarySystemBackground))
+            .overlay {
+                Text(label).foregroundColor(Color(.label))
+                    .font(.system(.body, design: .rounded)).bold()
+            }.frame(width:40, height: 40)
+        }
+    }
+}
+
 struct ContactsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
@@ -24,9 +45,27 @@ struct ContactsView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Contact.name, ascending: true)])
     private var contacts: FetchedResults<Contact>
 
-    @State var showPicker = false
-    @State var showDuplicateContactAlert = false
-    @State var selectedContact: CNContact?
+    @State private var showPicker = false
+    @State private var showDuplicateContactAlert = false
+    @State private var selectedContact: CNContact?
+
+    @ViewBuilder private var allContactsListView: some View {
+        ForEach(contacts) { contact in
+            contactCardView(contact: contact) {
+                HStack {
+                    CircularToggle(label: "W", isSelected: contact.callFrequency == "W") {
+                        putCallFrequency(contact: contact, callFrequency: "W")
+                    }
+                    CircularToggle(label: "M", isSelected: contact.callFrequency == "M") {
+                        putCallFrequency(contact: contact, callFrequency: "M")
+                    }
+                    CircularToggle(label: "Y", isSelected: contact.callFrequency == "Y") {
+                        putCallFrequency(contact: contact, callFrequency: "Y")
+                    }
+                }
+            }
+        }
+    }
 
     var body: some View {
             ZStack {
@@ -44,41 +83,21 @@ struct ContactsView: View {
                     }
                 )
                 ScrollView {
-                    ForEach(contacts) { contact in
-                        contactCardView(contact: contact) {
-                            HStack {
-                                Button {
-                                    putCallFrequency(contact: contact, callFrequency: "W")
-                                } label: {
-                                    Circle()
-                                        .fill(Color(contact.callFrequency == "W" ? .tintColor: .tertiarySystemBackground))
-                                    .overlay {
-                                        Text("W").foregroundColor(Color(.label))
-                                    }.frame(width:40, height: 40)
-                                }
+                    Spacer()
+                        .frame(height: 24)
+                    Label("All Contacts", systemImage: "person.2.fill").bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    if(contacts.isNotEmpty) {
+                        allContactsListView
+                    } else {
+                        Text("You do not have any contacts added in the app. Please add contacts using the Add Contacts button.")
+                            .font(.body.bold())
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(Color(.secondaryLabel))
+                            .padding(24)
 
-                                Button {
-                                    putCallFrequency(contact: contact, callFrequency: "M")
-                                } label: {
-                                    Circle()
-                                    .fill(Color(contact.callFrequency == "M" ? .tintColor: .tertiarySystemBackground))
-                                    .overlay {
-                                        Text("M").foregroundColor(Color(.label))
-                                    }.frame(width:40, height: 40)
-                                }
-
-                                Button {
-                                    putCallFrequency(contact: contact, callFrequency: "Y")
-                                } label: {
-                                    Circle()
-                                    .fill(Color(contact.callFrequency == "Y" ? .tintColor: .tertiarySystemBackground))
-                                    .overlay {
-                                        Text("Y").foregroundColor(Color(.label))
-                                    }.frame(width:40, height: 40)
-                                }
-                            }
-                        }
                     }
+
                 }
                 .padding(.horizontal, 8)
             }
@@ -96,7 +115,8 @@ struct ContactsView: View {
                     Button {
                         self.showPicker.toggle()
                     } label: {
-                        Text("\(Image(systemName: "plus.circle.fill")) Add Contacts").font(.system(.body, design: .rounded)).bold().foregroundStyle(Color(.secondaryLabel))
+                        Text("\(Image(systemName: "plus.circle.fill")) Add Contacts")
+                            .font(.system(.body, design: .rounded)).bold().foregroundStyle(Color(.secondaryLabel))
                     }.buttonStyle(.plain)
                     Spacer()
                 }

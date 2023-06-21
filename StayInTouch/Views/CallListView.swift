@@ -2,6 +2,22 @@ import SwiftUI
 import ContactsUI
 import CoreData
 
+extension Collection {
+    var isNotEmpty: Bool {
+        !self.isEmpty
+    }
+}
+
+struct CircularBackgroundStyle: ViewModifier {
+    var color: Color
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(color)
+            .frame(maxWidth: 40, maxHeight: 40)
+            .background(Circle().fill(Color(.tertiarySystemBackground)))
+    }
+}
+
 func contactCardView(contact: Contact, @ViewBuilder content: () -> some View) -> some View {
     LabeledContent {
         content()
@@ -11,7 +27,7 @@ func contactCardView(contact: Contact, @ViewBuilder content: () -> some View) ->
             Text("Call them for the first time")
                 .foregroundStyle(Color(.secondaryLabel))
         } else {
-            Text("Last called" + (contact.lastCalled ?? Date.now)
+            Text("Last called " + (contact.lastCalled ?? Date.now)
                 .formatted(date: .abbreviated, time: .omitted))
             .foregroundStyle(Color(.secondaryLabel))
         }
@@ -69,60 +85,71 @@ struct CallListView: View {
                 callsAttempted: callAttempted)
     }
 
+    @ViewBuilder var callsToBeVerifiedView: some View {
+        ForEach(callLists.callsAttempted) { contact in
+            contactCardView(contact: contact, content: {
+                Button(action: {
+                    let impact = UIImpactFeedbackGenerator(style: .rigid)
+                    impact.impactOccurred()
+                    verifyCall(contact: contact)
+                }, label: {
+                    Image(systemName: "checkmark")
+                        .modifier(CircularBackgroundStyle(color: Color(.systemOrange)))
+                        .bold()
+                })
+            })
+        }
+    }
+
+    @ViewBuilder var callsScheduledView: some View {
+        ForEach(callLists.callsScheduled) { contact in
+            contactCardView(contact: contact, content: {
+                Menu(content: {
+                    ForEach(contact.phone!, id: \.self) { phoneNumber in
+                        Button(phoneNumber, action: {
+                            let impact = UIImpactFeedbackGenerator(style: .rigid)
+                            impact.impactOccurred()
+                            makeCall(contact: contact, phone: phoneNumber)
+                        })
+                    }
+                }, label: {
+                    Image(systemName: "phone.fill")
+                        .modifier(CircularBackgroundStyle(color: Color(.systemGreen)))
+                })
+            })
+        }
+    }
+
     var body: some View {
         ZStack {
             ScrollView {
+                Spacer()
+                .frame(height: 24)
                 VStack(alignment: .leading) {
                     Label("Call", systemImage: "phone.fill").bold()
-                    if(!callLists.callsScheduled.isEmpty) {
-                        ForEach(callLists.callsScheduled) { contact in
-                            contactCardView(contact: contact, content: {
-                                Menu(content: {
-                                    ForEach(contact.phone!, id: \.self) { phoneNumber in
-                                        Button(phoneNumber, action: {
-                                            makeCall(contact: contact, phone: phoneNumber)
-                                        })
-                                    }
-                                }, label: {
-                                    Image(systemName: "phone.fill")
-                                        .foregroundColor(Color(.systemGreen))
-                                        .frame(maxWidth: 40, maxHeight: 40)
-                                        .background(Circle().fill(Color(.tertiarySystemBackground)))
-                                })
-                            })
-                        }
+                    if(callLists.callsScheduled.isNotEmpty) {
+                        callsScheduledView
+                    } else {
+                        Text("You are all set! You do not have any more calls to make this week.")
+                            .font(.body.bold())
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(Color(.secondaryLabel))
+                            .padding(24)
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity)
                 .padding(.bottom, 16)
 
                 VStack(alignment: .leading) {
-                    Label("Verify", systemImage: "checkmark").bold()
-                    if(callLists.callsAttempted.isEmpty) {
-                        Text("You are all set! No calls to be made right now.")
-                            .multilineTextAlignment(.center)
-                            .font(.system(.body, design: .rounded)).bold()
-                            .foregroundStyle(Color(.tertiaryLabel))
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                    } else {
-                        ForEach(callLists.callsAttempted) { contact in
-                            contactCardView(contact: contact, content: {
-                                    Button(action: {
-                                        verifyCall(contact: contact)
-                                    }, label: {
-                                        Image(systemName: "checkmark")
-                                            .foregroundColor(Color(.systemOrange))
-                                            .frame(maxWidth: 40, maxHeight: 40)
-                                            .background(Circle().fill(Color(.tertiarySystemBackground)))
-                                    })
-                            })
-                        }
+                    if(callLists.callsAttempted.isNotEmpty) {
+                        Label("Verify", systemImage: "checkmark").bold()
+                        callsToBeVerifiedView
                     }
-
-                }.frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .frame(maxWidth: .infinity)
                 Spacer()
-            }.padding(.horizontal, 8)
+            }
+            .padding(.horizontal, 8)
 
             if isFirstTimeUser {
                 WelcomeView()
